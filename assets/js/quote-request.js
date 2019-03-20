@@ -306,4 +306,22 @@ storefrontApp.controller('recentlyAddedActualQuoteRequestItemDialogController', 
     $scope.redirect = function (url) {
         $window.location = url;
     }
-}]);
+    }]);
+
+storefrontApp.controller('createCustomerReviewController', ['$scope', '$window', '$uibModalInstance', 'dialogData',
+    function ($scope, $window, $uibModalInstance, dialogData) {
+
+        $scope.$on('customerReviewsChanged', function (event, data) {
+            dialogData.updated = true;
+        });
+
+        $scope.dialogData = dialogData;
+
+        $scope.close = function () {
+            $uibModalInstance.close();
+        }
+
+        $scope.redirect = function (url) {
+            $window.location = url;
+        }
+    }]);

@@ -31,6 +31,13 @@
     <div class="grid-item large--three-fifths">
         <h2 itemprop="name">{{ product.title }}</h2>
 
+        {% if shop.customer_reviews_enabled and product.customer_reviews.size > 0 %}
+            <h4>Rating: {{ product.average_product_rating }}</h4>
+            {% for average_rating in product.average_property_ratings %}
+                <h6>{{ average_rating.property.name }}: {{ average_rating.rating }}</h6>
+            {% endfor %}
+        {% endif %}
+
         <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 
             {% assign variant = product.selected_or_first_available_variant %}
@@ -130,6 +137,13 @@
                 <label for="quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
                 <input type="number" id="quantity" name="quantity" value="1" min="1" class="quantity-selector">
                 {% endif %}
+
+                {% if shop.customer_reviews_enabled %}
+                <button type="button" id="createReview" class="btn btn-clearfix" ng-click="addCustomerReviewToProduct(selectedVariation)">
+                    Create review
+                </button>
+                {% endif %}
+
                 <button type="button" name="add" id="addToCart" class="btn btn-clearfix AddShopCart" ng-disabled="!selectedVariation.id || !selectedVariation.isAvailable" ng-click="addProductToCart(selectedVariation, 1)" interactor-arg="{{ product.id }}">
                     <span class="icon icon-cart"></span>
                     <span id="addToCartText">{{ 'products.product.add_to_cart' | t }}</span>
@@ -150,6 +164,8 @@
                     <span class="fa fa-file-text list-icon-clearfix"></span>
                     <span>{{ 'products.list.add_to_myList' | t }}</span>
                 </button>
+
+
                 <span id="variantQuantity" class="variant-quantity"></span>
             </form>
             <hr>
@@ -160,8 +176,13 @@
 
         {% if shop.customer_reviews_enabled and product.customer_reviews.size > 0 %}
         <h4>Customer reviews</h4>
-        {% for review in product.customer_reviews limit:5 %}
+
+        {% for review in product.customer_reviews %}
         <p>
+            <h5>{{ review.author_nickname }}: {{ review.product_rating }}</h5>
+            {% for property_value in review.property_values %}
+                <h6>{{ property_value.property.name }}: {{ property_value.rating }}</h6>
+            {% endfor %}
             {{ review.content }}
             <br>
             <time pubdate datetime="{{ review.created_date | date: '%Y-%m-%d' }}">

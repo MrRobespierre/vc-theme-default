@@ -44,9 +44,42 @@ storefrontApp.controller('productController', ['$rootScope', '$scope', '$window'
                 $rootScope.$broadcast('actualQuoteRequestItemsChanged');
             });
         };
-        
-        $scope.initAvailableLists = function(lists) {
+
+        $scope.addCustomerReviewToProduct = function (product) {
+
+            var dialogData = getCustomerReviewDialogModel(product);
+            dialogService.showDialog(dialogData, 'createCustomerReviewController', 'storefront.create-customer-review-dialog.tpl', function (result) {
+                console.log(dialogData);
+            });
+        };
+
+        $scope.initAvailableLists = function (lists) {
             $scope.listType = lists.default_list_type;
+        }
+
+        function getCustomerReviewDialogModel(product) {
+            var customerReview = {
+                authorNickname: "anonymous",
+                content: "test content",
+                isActive: true,
+                productId: product.id,
+                productRating: 4,
+                propertyValues: []
+            };
+
+            angular.forEach(product.averagePropertyRatings,
+                function (averageProperty) {
+
+                    var propertyValue =
+                        {
+                            property: averageProperty.property,
+                            propertyId: averageProperty.property.id,
+                            rating: 0
+                        };
+                    customerReview.propertyValues.push(propertyValue);
+                });
+
+            return customerReview;
         }
 
         function toDialogDataModel(product, quantity) {
