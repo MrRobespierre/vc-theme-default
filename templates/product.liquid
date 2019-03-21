@@ -32,9 +32,9 @@
         <h2 itemprop="name">{{ product.title }}</h2>
 
         {% if shop.customer_reviews_enabled and product.customer_reviews.size > 0 %}
-            <h4>Rating: {{ product.average_product_rating }}</h4>
+            <h4>Rating: {{ product.average_product_rating | round: 1 }}</h4>
             {% for average_rating in product.average_property_ratings %}
-                <h6>{{ average_rating.property.name }}: {{ average_rating.rating }}</h6>
+                <h6>{{ average_rating.property.name }}: {{ average_rating.rating | round : 1 }}</h6>
             {% endfor %}
         {% endif %}
 

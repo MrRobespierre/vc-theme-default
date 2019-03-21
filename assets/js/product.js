@@ -58,17 +58,25 @@ storefrontApp.controller('productController', ['$rootScope', '$scope', '$window'
             });
         };
 
+        $scope.updateProductRating = function(customerReview, rating) {
+            customerReview.productRating = rating;
+        }
+
+        $scope.updateProductPropertyRating = function (propertyValue, rating) {
+            propertyValue.rating = rating;
+        }
+
         $scope.initAvailableLists = function (lists) {
             $scope.listType = lists.default_list_type;
         }
 
         function getCustomerReviewDialogModel(product) {
             var customerReview = {
-                authorNickname: "anonymous",
-                content: "test content",
+                authorNickname: "",
+                content: "",
                 isActive: true,
                 productId: product.id,
-                productRating: 4,
+                productRating: 1,
                 propertyValues: []
             };
 
@@ -79,7 +87,7 @@ storefrontApp.controller('productController', ['$rootScope', '$scope', '$window'
                         {
                             property: averageProperty.property,
                             propertyId: averageProperty.property.id,
-                            rating: 0
+                            rating: 1
                         };
                     customerReview.propertyValues.push(propertyValue);
                 });

@@ -46,7 +46,8 @@
             "assets/storefront.css",
             "assets/common-components.css",
             "assets/ideal-image-slider.css",
-            "assets/ideal-image-slider-default-theme.css"
+            "assets/ideal-image-slider-default-theme.css",
+            "assets/rating-stars.css"
         ]
     },
     {
