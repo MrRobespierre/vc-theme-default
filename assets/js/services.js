@@ -256,3 +256,11 @@ storefrontApp.service('orderService', ['$http', function ($http) {
         }
     }
 }]);
+
+storefrontApp.service('customerReviewService', ['$http', function ($http) {
+    return {
+        saveReview: function (requestData) {
+            return $http.post('storefrontapi/customerReviews', requestData);
+        }
+    }
+}]);

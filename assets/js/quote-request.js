@@ -318,10 +318,10 @@ storefrontApp.controller('createCustomerReviewController', ['$scope', '$window',
         $scope.dialogData = dialogData;
 
         $scope.close = function () {
-            $uibModalInstance.close();
+            $uibModalInstance.close(false);
         }
 
-        $scope.redirect = function (url) {
-            $window.location = url;
+        $scope.create = function () {
+            $uibModalInstance.close(true);
         }
     }]);

@@ -1,7 +1,7 @@
 var storefrontApp = angular.module('storefrontApp');
 
-storefrontApp.controller('productController', ['$rootScope', '$scope', '$window', 'dialogService', 'catalogService', 'cartService', 'quoteRequestService', 'customerService', 'listService', '$localStorage',
-    function ($rootScope, $scope, $window, dialogService, catalogService, cartService, quoteRequestService, customerService, listService, $localStorage) {
+storefrontApp.controller('productController', ['$rootScope', '$scope', '$window', 'dialogService', 'catalogService', 'cartService', 'quoteRequestService', 'customerService', 'customerReviewService', 'listService', '$localStorage',
+    function ($rootScope, $scope, $window, dialogService, catalogService, cartService, quoteRequestService, customerService, customerReviewService, listService, $localStorage) {
         //TODO: prevent add to cart not selected variation
         // display validator please select property
         // display price range
@@ -49,7 +49,12 @@ storefrontApp.controller('productController', ['$rootScope', '$scope', '$window'
 
             var dialogData = getCustomerReviewDialogModel(product);
             dialogService.showDialog(dialogData, 'createCustomerReviewController', 'storefront.create-customer-review-dialog.tpl', function (result) {
-                console.log(dialogData);
+                if (!result)
+                    return;
+
+                customerReviewService.saveReview(dialogData).then(function(response){
+                    document.location.reload(false);
+                });
             });
         };
 
